@@ -6,11 +6,11 @@ https://github.com/hanbit/practical-next.js
 
 2️⃣ [2주차](#2주차-강의-내용)
 
-3️⃣ [3주차](#3차-강의-내용)
+3️⃣ [3주차](#3주차-강의-내용)
 
-4️⃣ [4주차]()
+4️⃣ [4주차](휴강)
 
-5️⃣ [5주차]()
+5️⃣ [5주차](#5주차-강의-내용)
 
 6️⃣ [6주차]
 
@@ -34,7 +34,181 @@ https://github.com/hanbit/practical-next.js
 
 <hr>
 
-# 3차 강의 내용
+# 5주차 강의 내용
+
+-   SSG는 높은 확장성과 뛰어난 성능을 보이는 프론트엔드 애플리케이션을 만들고 싶을 때 가장 좋은 방법임
+
+-   한 가지 문제점은 일단 웹 페이지를 만들고 나면 다음 배포 전까지 내용이 변하지 않는다
+
+-   조금이라도 수정하려면 필요한 데이터를 가져와서 수정하고 다시 생성하는 과정을 반복해야 한다
+
+-   이런 문제 때문에 나온 방법이 바로 **증분 정적 재생성(ISR: Incremental Static Regeneration)**이다
+
+-   예를 들어 동적 콘텐츠를 제공하지만 해당 콘텐츠 데이터를 로딩하는 데 시간이 오래 걸린다면, SSG와 ISR을 함께 사용하여 문제를 해결할 수 있다
+
+-   많은 양의 데이터를 필요로 하는 복잡한 대시보드를 만든다면, 데이터를 불러오기 위한 REST API 호출에 추가 소요된다
+
+-   만일 데이터가 자주 변하지 않는다면 SSG와 ISR을 사용해서 데이터를 10분 동안 캐싱할 수 있다
+
+```
+import fetch from 'isomorphic-unfetch';
+import Dashboard from './components/Dashboard';
+
+export async function getStaticProps() {
+    const userReq = await fetch('/api/user');
+    const userData = await userReq.json();
+
+    const dashboardReq = await fetch('/api/dashboard');
+    const dashboardData = await dashboardReq.json();
+
+    return {
+        props: {
+            user: userData,
+            data: dashboardData,
+        },
+        revalidate: 600 // 시간을 초 단위로 나타낸 값 (10분)
+    };
+}
+202030408 김진석
+
+function IndexPage(props) {
+    return (
+        <div>
+            <Dashboard
+                user={props.user}
+                data={props.data}
+            />
+        </div>
+    );
+}
+
+export default IndexPage;
+
+```
+
+-   Next.js 공식 문서의 getStaticProps 함수의 설명을 참고
+
+https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-props
+
+-   revalidate는 다음 문서를 참고
+
+https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration
+
+## 예제
+
+```
+export async function getStaticProps() {
+    const res = await fetch('https://api.github.com/repos/vercel/next.js');
+    const repo = await res.json();
+    return {
+        props: { repo },
+        revalidate: 60, // 60초마다 재검증
+    };
+}
+
+202030408 김진석
+
+export default function Chapter02_06({ repo }) {
+    return (
+        <div className={styles.center}>
+            {repo.name}
+        </div>
+    );
+}
+
+```
+
+## 예제
+
+```
+
+202030408 김진석
+
+export default async function Foo() {
+    let data = await fetch('https://api.vercel.app/blog');
+    let posts = await data.json();
+    return (
+        <ul>
+            {posts.map((post) => (
+                <li key={post.id}>
+                    {post.id} : {post.title} : {post.}
+                </li>
+            ))}
+        </ul>
+    );
+}
+
+```
+
+# 03. Next.js 기초와 내장 컴포넌트
+
+-   Next는 서버사이드 렌더링 외에도 많은 내장 컴포넌트와 함수를 제공함
+
+## [3장에서는 다음과 같은 내용을 학습하게 됨]
+
+-   클라이언트와 서버에서의 라우팅 시스템 작동 방식
+-   페이지 간 이동 최적화
+-   Next.js가 정적 자원을 제공하는 방법
+-   자동 이미지 최적화와 새로운 Image 컴포넌트를 사용한 이미지 제공 최적화 기법
+-   컴포넌트에서 HTML 메타데이터를 처리하는 방법
+-   \_app.js와 \_documents.js 파일 내용 및 커스터마이징 방법
+
+# 3-1 라우팅 시스템
+
+-   React의 클라이언트 라우팅: React Router, Reach Router 등은 클라이언트 측에서만 라우팅을 구현할 수 있다
+-   Next.js 파일 시스템 기반 라우팅: Next.js는 파일 시스템을 기반으로 페이지와 라우팅을 관리함
+-   라우팅 규칙: /pages 디렉터리 안의 .js, .jsx, .ts, .tsx 파일에서 export한 React 컴포넌트가 페이지로 사용된다
+-   컨텐츠 분리: 블로그처럼 컨텐츠를 분리해야 할 경우, /pages 아래에 별도의 디렉터리를 생성하고 라우팅 규칙을 설정할 수 있다
+-   계층적 구조 라우팅: /pages/posts와 같은 디렉터리 구조를 통해 계층적인 라우팅 규칙을 만들 수 있다
+-   동적 라우팅: /pages/posts/[slug].js와 같이 파일명을 사용하여 동적 라우팅을 지원하며, 이는 동적 URL에 대응하는 JSX를 반환한다
+
+```
+function Homepage() {
+    return <div>This is the homepage</div>;
+}
+
+export default Homepage;
+```
+
+-   /pages/posts/ 디렉토리 내에 index.js만 간단하게 만들면 localhost:3000/posts로 접속이 가능
+-   다만 동적인 라우팅 규칙을 만들려면 [slug].js 파일이 필요
+-   [slug].js는 매개 변수로 사용되며 주소창에서 입력하는 값을 모두 받을 수 있다
+-   동적 라우팅 규칙을 중첩할 수도 있다
+-   접근 경로를 ~/posts/[date]/[slug]와 같이 만들 수 있다
+-   [date] 디렉토리를 만들고 그 안에 [slug].js 파일을 저장하면 된다
+-   [date]나 [slug]는 어떤 값이든 가질 수 있다
+-   실제 앱에서는 경로 매개변수에 따라 서로 다른 동적 페이지를 렌더링하게 된다
+
+# 페이지에서 경로 매개변수 사용하기 (page53)
+
+-   경로 매개변수를 사용해서 동적 페이지를 쉽게 만들 수 있다
+-   page/greet/[name].js 파일을 만들어 보자
+-   내장 getServerSideProps 함수를 통해 URL에서 동적으로 [name] 변수 값을 가져온다
+-   greet/Mitch 주소로 가면 'Hello, Mitch!'라는 문구가 렌더링 된다.
+
+```
+export async function getServerSideProps({ params }) {
+    const { name } = params;
+    return {
+        props: {
+            name,
+        },
+    };
+}
+
+function Greet(props) {
+    return (
+        <h1>Hello, {props.name}!</h1>
+    );
+}
+
+export default Greet;
+
+```
+
+<hr>
+
+# 3주차 강의 내용
 
 ## 그 밖의 설정
 
