@@ -12,7 +12,7 @@ https://github.com/hanbit/practical-next.js
 
 5️⃣ [5주차](#5주차-강의-내용)
 
-6️⃣ [6주차]
+6️⃣ [6주차](#6주차-강의-내용)
 
 7️⃣ [7주차]()
 
@@ -31,6 +31,104 @@ https://github.com/hanbit/practical-next.js
 1️⃣4️⃣ [14주차]()
 
 1️⃣5️⃣ [15주차]()
+
+<hr>
+
+# 6주차 강의 내용
+
+## Page Router실습코드
+
+-   page Router 이용해서 [] 과 [...] 사용 실습
+
+-   blog 를 슬러그로 만들던가 , foo를 슬러그 또는 기본으로 사용해서 여러가지 코드 실습
+
+```
+202030408 김진석
+import { useRouter } from 'next/router';
+
+export default function Foo() {
+    const router = useRouter(); // 함수 호출 필요
+    const { foo, id, name, pid } = router.query;
+    console.log({ foo, id, name, pid });
+
+    return (
+        <div>
+            {/* foo가 배열인지 확인 후 접근 */}
+            {foo && Array.isArray(foo) ? (
+                <>
+                    <h1>foo[0] : {foo[0]}</h1>
+                    <h1>foo[1] : {foo[1]}</h1>
+                    <h1>foo[2] : {foo[2]}</h1>
+                </>
+            ) : (
+                <h1>foo is not an array or is undefined</h1>
+            )}
+            <h1>id : {id}</h1>
+            <h1>name : {name}</h1>
+            <h1>pid : {pid}</h1>
+        </div>
+    );
+}
+```
+
+## App Router 실습 코드
+
+```
+/foo
+export default async function Foo(props) {
+    return (
+        <div>
+            <h1>App Router</h1>
+            <h1>foo 1</h1>
+        </div>
+    );
+}
+
+```
+
+```
+/foo/입력값 ([fooId 이기 떄문])
+export default function FooId({ params, searchParams }) {
+    return (
+        <div>
+            <h1>App Router</h1>
+            <h1>
+                foo {params.fooId} / {searchParams.contry}
+            </h1>
+        </div>
+    );
+}
+
+```
+
+```
+/foo/입력값/bar -> pagerouter와 다르게 foo/bar가 안됨
+export default async function Bar(props) {
+  202030408 김진석
+    return (
+        <div>
+            <h1>App Router</h1>
+            <h1>bar 1</h1>
+        </div>
+    );
+}
+
+```
+
+```
+export default function page(props) {
+    console.log(props);
+    return (
+        <>
+            <h1>foo: {props.params.foo}</h1>
+            {/* <h1>foo[]: {props.params.foo[1]}</h1> */}
+            <h1>id: {props.searchParams.id}</h1>
+            <h1>name: {props.searchParams.name}</h1>
+        </>
+    );
+}
+
+```
 
 <hr>
 
