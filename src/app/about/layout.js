@@ -10,8 +10,8 @@ export const metadata = {
 export default function HelpLayout({ children }) {
     return (
         <div>
-            <h2>*** sub layout ***</h2>
             {children}
+            <h2>*** sub layout ***</h2>
         </div>
     );
 }

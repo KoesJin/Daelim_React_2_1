@@ -3,8 +3,8 @@ import React from 'react';
 const page = () => {
     return (
         <>
-            <h1>About</h1>
-            <h2> This is about Page</h2>
+            <h1>Foo</h1>
+            <h2> This is Foo Page</h2>
         </>
     );
 };
