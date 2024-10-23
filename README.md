@@ -16,9 +16,9 @@ https://github.com/hanbit/practical-next.js
 
 7️⃣ [7주차](#7주차-강의-내용)
 
-8️⃣ [8주차]
+8️⃣ [8주차](중간고사)
 
-9️⃣ [9주차]()
+9️⃣ [9주차](#9주차-강의-내용)
 
 🔟 [10주차]()
 
@@ -30,7 +30,361 @@ https://github.com/hanbit/practical-next.js
 
 1️⃣4️⃣ [14주차]()
 
-1️⃣5️⃣ [15주차]()
+1️⃣5️⃣ [15주차](기말고사)
+
+<hr>
+
+# 9주차 강의 내용
+
+## 1. Static Resource
+
+-   정적 자원 중 이미지 파일은 SEO에 많은 영향을 미침
+-   다운로드 시간이 많이 걸리고, 렌더링 후에 레이아웃이 변경되는 등 UX에 영향을 미침
+-   이것을 누적 레이아웃 이동(CLS: Cumulative Layout Shift)이라고 함
+-   Image 컴포넌트를 사용하면 CLS 문제를 해결함
+-   lazy loading: 이미지 로드 시점을 필요할 때까지 지연시키는 기술임
+-   이미지 사이즈 최적화로 사이즈를 1/10 이하로 줄여 줌
+-   Placeholder를 제공함
+
+## 1. Image component - local
+
+-   Image 컴포넌트를 사용하면 다양한 props를 전달할 수 있다
+
+-   [주요 props]
+
+    -   src = “ “
+    -   width = { 500 }
+    -   height = { 500 }
+    -   alt = “ “
+    -   Placeholder = “blue”
+    -   외부 이미지는 blurDataURL=' ' 로 처리
+    -   loading = “lazy”
+
+## 1. Image component - local
+
+    -	정적 자원은 기본적으로 public 디렉토리에 저장함
+    -	정적 자원은 번들링 이후에도 변하지 않기 때문
+    -	여러 종류의 정적 자원을 사용할 경우 public의 root에 각각 디렉토리를 만들어 사용
+    -	Image도 마찬가지로 /public/images 디렉토리를 만들고 사용
+    -	이미지를 불러오는 방법은 직접 불러오는 방법과 import하는 방법 2가지가 있다
+    -	이미지의 경로는 /images/[이미지 이름.확장자]로 합니다. 이 때 public은 생략
+
+```
+import Image from 'next/image'
+202030408 김진석
+export default function About() {
+  return (
+    <div>
+      <h1>About</h1>
+      <p>This is the About page</p>
+      <Image src="/images/person.jpg" alt="person" width={300} height={500} />
+    </div>
+  )
+}
+```
+
+## 1. Image component - local
+
+-   fill은 화면에 꽉 차게 출력 - width, height와 함께 사용할 수 없다
+
+```
+import Image from 'next/image'
+
+export default function About() {
+  return (
+    <div>
+      <Image src="/images/person.jpg" alt="person" layout="fill" />
+    </div>
+  )
+}
+```
+
+-   responsive는 부모 요소의 크기에 따라서 이미지의 크기가 변함
+-   width와 height는 반드시 작성해야 함
+
+```
+import Image from 'next/image'
+
+export default function About() {
+  return (
+    <div>
+      <Image src="/images/person.jpg" alt="person" layout="responsive" width={300} height={500} />
+    </div>
+  )
+}
+```
+
+-   실습코드
+
+```
+20203048
+import 하거나 직접 입력하거나 두가지 방법 사용
+
+import React from 'react';
+import Galxy1 from '/public/images/galxy1.jpg';
+import Image from 'next/image';
+
+const page = () => {
+    return (
+        <>
+            <h1>About</h1>
+            <h2> This is about Page</h2>
+            <Image src={Galxy1} alt="galxy1" width={1720} height={1024} />
+            <Image src="/images/galxy2.jpg" alt="galxy2" width={1720} height={1024} />
+        </>
+    );
+};
+
+export default page;
+
+```
+
+## 1. Image component - Remote
+
+-   Pixabay와 같은 외부 이미지를 사용하려면 next.config.mjs에 URL을 추가해 줘야 함
+-   만일 파일이 없다면 Project root에 추가해 주면 된다
+-   파일의 초기 상태는 다음과 같다
+
+```
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+};
+
+export default nextConfig;
+```
+
+-   nextConfig에 images를 추가합니다.
+-   간단하게 domains만 등록해 줘도 되지만, 공식 사이트의 추천은 두 번째 코드와 같습니다.
+
+```
+const nextConfig = {
+  images: {
+    domains: ['cdn.pixabay.com'],
+  },
+};
+
+export default nextConfig;
+```
+
+```
+추천 코드
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.pixabay.com',
+      },
+    ],
+  },
+};
+
+export default nextConfig;
+```
+
+## 1. Image component - Remote
+
+-   이미지를 출력하는 코드
+-   서비스에 따라서 도메인은 차이가 날 수 있다
+-   Pixabay의 경우 원하는 이미지를 우클릭 하고, ‘이미지 주소 복사’로 주소를 복사
+-   나머지는 local image 사용법과 같다
+-   이미지가 정상적으로 출력되면 다운로드 받아 이미지의 상태를 확인
+
+```
+import Image from 'next/image'
+
+export default function About() {
+  return (
+    <div>
+      <Image
+        src={"https://cdn.pixabay.com/photo/2023/03/14/23/55/darling-7853389_1280.jpg"}
+        width={300}
+        height={500}
+      />
+    </div>
+  )
+}
+```
+
+-   실습 코드
+
+```
+import React from 'react';
+import Galxy1 from '/public/images/galxy1.jpg';
+import Image from 'next/image';
+202030408
+const page = () => {
+    return (
+        <>
+            <h1>About</h1>
+            <h2> This is about Page</h2>
+            <Image src={Galxy1} alt="galxy1" width={1720} height={1024} />
+            <Image src="/images/galxy2.jpg" alt="galxy2" width={1720} height={1024} />
+            {/* 외부 서버 이미지 출력 */}
+            김진석
+            <Image
+                src={'https://cdn.pixabay.com/photo/2016/08/04/14/04/space-1569133_1280.jpg'}
+                width={1720}
+                height={1024}
+            />
+        </>
+    );
+};
+
+export default page;
+
+```
+
+## 처리되지 않은 런타임 에러 (Unhandled Runtime Error)
+
+-   에러 메시지:
+
+    • Hydration이 실패했습니다. 그 이유는 초기 UI가 서버에서 렌더링된 것과 일치하지 않기 때문입니다.
+
+서버에서의 예상 HTML 구조:
+
+```
+<div>
+  <div>
+    <h1></h1>
+  </div>
+</div>
+```
+
+## 04. 코드 구성과 데이터 불러오기
+
+-   4장에서는 애플리케이션의 디렉터리 구조를 어떻게 구성하는지 알아보자
+-   클라이언트와 서버에서 외부 REST API 및 GraphQL API를 사용하는 방법도 알아 보자
+-   프로젝트를 시작할 때 애플리케이션의 확장과 복잡도 증가에 대비해야 함
+-   4-1절에서는 애플리케이션 상태를 빠르고 간결하게 관리할 수 있는 코드 구성 방법을 알아보자
+
+-   알아볼 내용은 다음과 같다
+
+-   아토믹 디자인 원칙(Atomic Design Principles / Atomic Design Pattern)에 따른 컴포넌트 구성
+-   유틸리티 구성
+-   정적 자원 구성
+-   스타일 파일 구성
+-   lib 파일 구성
+-   서버에서 REST API를 사용하는 방법
+-   클라이언트에서 REST API를 사용하는 방법
+-   클라이언트 및 서버에서 Apollo를 이용하여 GraphQL API를 사용하는 방법
+
+## 4.1 디렉토리 구조 구성
+
+-   Next.js에서는 특정 파일과 디렉토리가 지정된 위치에 있어야 함
+    -   예: \_app.js나 \_document.js 파일, pages/와 public/
+-   Node_modules/: Next.js 프로젝트의 의존성 패키지를 설치하는 디렉토리
+-   pages/: 애플리케이션의 페이지 파일을 저장하고 라우팅 시스템을 관리
+-   public/: 컴파일된 CSS 및 자바스크립트 파일, 이미지, 아이콘 등의 정적 자원 관리
+-   styles/: 스타일링 포맷(CSS, SASS, LESS 등)과 관계없이 스타일링 모듈 관리
+-   pages/ 디렉토리를 src/ 디렉토리 안으로 옮길 수 있다
+-   **public/**과 **node_modules/**를 제외한 다른 디렉토리는 모두 **src/**로 옮길 수 있다
+
+## 컴포넌트 구성
+
+-   컴포넌트는 세 가지로 분류하고 각 컴포넌트와 관련된 스타일 및 테스트 파일을 같은 곳에 두어야 함
+
+    -   mkdir components && cd components
+    -   mkdir atoms
+    -   mkdir molecules
+    -   mkdir organisms
+    -   mkdir templates
+
+-   코드를 더 효율적으로 구성하기 위해 아토믹 디자인 원칙에 따라 디렉토리를 구성합니다.
+
+-   atoms: 가장 기본적인 컴포넌트 관리.
+    -   button, input, p와 같은 표준 HTML 요소를 감싸는 용도로 사용되는 컴포넌트
+-   molecules: atom에 속한 컴포넌트 여러 개를 조합하여 복잡한 구조로 만든 컴포넌트 관리.
+    -   input과 label을 합쳐서 만든 새로운 컴포넌트
+-   organisms: molecules와 atoms를 섞어서 더 복잡하게 만든 컴포넌트 관리.
+    -   footer나 carousel 컴포넌트
+-   templates: 위의 모든 컴포넌트를 어떻게 배치할지 결정해서 사용자가 접근할 수 있는 페이지를 구성
+
+## Button 컴포넌트 구성
+
+-   Button 컴포넌트를 예로 들면 다음과 같이 최소한 세 개의 파일을 만들어야 한다
+-   컴포넌트 파일, 스타일 파일, 테스트 파일
+-   이렇게 컴포넌트를 구성하면 필요할 때 컴포넌트를 찾고 수정하기 쉽다
+
+-   mkdir components/atoms/Button
+-   cd components/atoms/Button
+-   touch index.js
+-   touch button.test.js
+-   touch button.styled.js # 또는 style.module.css
+
+## 유틸리티 구성
+
+-   컴포넌트를 만들지 않는 코드 파일을 유틸리티 스크립트라고 한다
+-   예를 들어 애플리케이션의 로그(log) 파일을 저장하는 코드가 있다면, 이것을 컴포넌트로 만들 필요가 있을까?
+-   이렇게 렌더링에 필요한 컴포넌트가 아닌 기타 필요한 스크립트가 있다면, utilities/ 디렉토리에 별도로 관리하는 것이 좋다
+-   그리고 각 유틸리티에 맞는 테스트 파일도 만든다
+
+-   cd utilities/
+-   touch time.js
+-   touch localStorage.js
+-   touch jwt.js
+-   touch logs.js
+
+-   touch time.test.js
+-   touch localStorage.test.js
+-   touch jwt.test.js
+-   touch logs.test.js
+
+## 정적 자원의 구성
+
+-   정적 자원은 public/ 디렉토리에서 관리한다
+-   일반적인 웹 애플리케이션에서는 다음과 같은 정적 자원을 사용함:
+-   이미지
+-   컴파일한 자바스크립트 파일
+-   컴파일한 CSS 파일
+-   아이콘 (favicon 및 웹 앱 아이콘)
+-   manifest.json, robot.txt 등의 정적 파일
+-   먼저 public/assets/ 디렉토리를 만들고 파일 유형별로 다시 디렉토리를 추가한다
+-   그리고 이곳에 저장된 파일에 접근하고자 하면, public을 제외한 주소를 써주면 된다
+
+-   cd public && mkdir assets
+-   cd assets
+-   mkdir js
+-   mkdir css
+-   mkdir icons
+-   mkdir images
+
+## 스타일 파일 구성
+
+-   스타일 파일은 앱에서 어떤 스타일 관련 기술을 사용하는가에 따라 구성 방식이 달라집니다.
+-   Emotion, styled-components, JSS와 같은 CSS-in-JS 프레임워크의 경우, 컴포넌트별로 스타일 파일을 만듭니다. 이렇게 하면 스타일 변경도 쉽습니다.
+-   만일 컬러 팔레트, 테마, 미디어 쿼리와 같은 공통 스타일의 경우는 styles/ 디렉토리를 사용합니다.
+
+## lib 파일 구성
+
+-   lib 파일은 서드파티 라이브러리를 감싸는 스크립트를 말함
+-   lib 파일은 특정 라이브러리에 특화된 것이다 예 : GraphQL
+-   만일 GraphQL을 사용한다면, 클라이언트를 초기화하고, 질의문과 뮤테이션을 저장하는 등의 작업이 필요함
+-   먼저 이러한 스크립트를 좀 더 모듈화하기 위해 프로젝트 root에 lib/graphql/ 디렉토리를 만든다
+-   그리고 다음과 같이 구성하여 관리
+
+```
+next-js-app/
+└── lib/
+    └── graphql/
+        ├── index.js
+        ├── queries/
+        │   ├── query1.js
+        │   └── query2.js
+        └── mutations/
+            ├── mutation1.js
+            └── mutation2.js
+```
+
+## 4.2 데이터 불러오기
+
+-   Next.js는 클라이언트와 서버 모두에서 데이터를 불러올 수 있다
+-   서버는 다음 두 가지 상황에서 데이터를 불러올 수 있다
+    -   1. 정적 페이지를 만들 때 getStaticProps 함수를 사용해서, 빌드 시점에 데이터를 불러올 수 있다
+    -   2.  서버가 페이지를 렌더링할 때 getServerSideProps를 통해, 실행 도중 데이터를 불러올 수도 있다
+-   데이터 베이스에서 데이터를 가져올 수도 있지만 안전하지 않기 때문에 권장하지 않습니다. 데이터베이스의 접근은 백엔드에서 처리하는 것이 좋다
+-   Next.js는 프런트엔드만 담당하는 것이 좋다
 
 <hr>
 
