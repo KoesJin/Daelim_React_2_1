@@ -14,6 +14,9 @@ export default function Navbar() {
                 <Link href="/about">About</Link>
             </div>
             <div>
+                <Link href="/rest-api">Axios</Link>
+            </div>
+            <div>
                 <Link href="/bar/this_is_slug_Page">Slug</Link>
             </div>
         </nav>
