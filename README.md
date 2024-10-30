@@ -20,7 +20,7 @@ https://github.com/hanbit/practical-next.js
 
 9️⃣ [9주차](#9주차-강의-내용)
 
-🔟 [10주차]()
+🔟 [10주차](#10주차-강의-내용)
 
 1️⃣1️⃣ [11주차]
 
@@ -31,6 +31,89 @@ https://github.com/hanbit/practical-next.js
 1️⃣4️⃣ [14주차]()
 
 1️⃣5️⃣ [15주차](기말고사)
+
+<hr>
+
+# 10주차 강의 내용
+
+## 4.2 데이터 불러오기
+
+-   Next는 클라이언트와 서버 모두에서 데이터를 불러올 수 있다
+
+-   서버는 다음 두 가지 상황에서 데이터를 불러올 수 있다
+
+1. 정적 페이지를 만들 때 getStaticProps 함수를 사용하여, 빌드 시점에 데이터를 불러올 수 있다
+
+2. 서버가 페이지를 렌더링할 때 getServerSideProps를 통해, 실행 도중 데이터를 불러올 수도 있다
+
+-   데이터 베이스에서 데이터를 가져올 수도 있지만 안전하지 않기 때문에 권장하지 않습니다. 데이터베이스의 접근은 백엔드에서 처리하는 것이 좋다
+-   Next는 프론트엔드만 담당하는 것이 좋다
+
+## 서버가 데이터 불러오기
+
+-   서버에서는 두 가지 방법으로 HTTP 요청을 만들고 처리할 수 있다
+
+    1.  Node의 내장 HTTP 라이브러리를 사용할 수 있다
+        -   다만, 서드파티 HTTP 클라이언트와 비교했을 때 설정하고 처리해야 할 작업이 더 많아 번거로울 수 있다
+    2.  HTTP 클라이언트 라이브러리를 사용할 수 있습니다. 가장 유명한 것이 Axios임
+
+    -   Axios를 사용하는 이유
+
+    1.  클라이언트와 서버 모두에서 동일하게 사용할 수 있다
+    2.  npm을 통한 다운로드가 일주일에 약 1,700만 회에 달할 정도로 많이 사용되고 있다
+
+## 서버에서 REST API 사용하기
+
+-   REST API를 호출할 때는 public API를 호출할 것인지, private API를 호출할 것인지를 먼저 확인해야 함
+-   Public API는 어떤 인증이나 권한도 필요 없으며, 누구나 호출할 수 있다
+-   Private API는 호출 전 반드시 인증과 권한 검사 과정을 거쳐야 함
+-   예를 들어 구글의 API를 사용하고 싶다면 OAuth 2.0을 사용해야 합니다. 이는 거의 산업 표준이라고 할 수 있다
+-   이 밖에 API들도 어떻게 인증과 권한 검사 과정을 거치는지 반드시 확인해야 한다
+-   97페이지부터 진행하는 프로젝트는 GitHub에 있는 저자의 코드와 비교하면서 테스트하기를 권장한다
+
+## ssr-rest-api 프로젝트 (Page 97)
+
+1. 새로운 Next 프로젝트 생성
+
+    - npx create-next-app ssr-rest-api
+
+2. Axios 패키지 추가
+
+-   $ npm install axios
+
+3. 프로젝트 개요
+
+    - 이번 프로젝트는 public API를 호출하여 몇몇 사용자의 이름과 ID를 표시합니다.
+    - 사용자의 이름을 클릭하면 세부 페이지로 이동하여 사용자의 정보를 자세히 볼 수 있도록 합니다.
+
+4. 코드 수정
+
+    - pages/index.js 파일을 page97의 코드처럼 수정함
+    - 이 코드는 실행하면 에러가 발생하는데, 이는 아직 사용자 데이터를 불러오지 못하기 때문
+    - 내장 getServerSideProps 함수를 사용하여 REST API를 호출하고, 결과 데이터를 HomePage 컴포넌트로 전달해야 합니다. 5. REST API 호출 부분에 page98의 파란색 코드 추가
+    - 이 코드를 통해 서버에 접속하며, 올바르게 설정하면 그림 1-4와 같은 렌더링 결과를 볼 수 있다
+
+# 📘 REST API - 개요
+
+-   REST (Representational State Transfer) 는 자원을 이름으로 구분하고, 자원의 상태를 통신을 통해 주고받는 방식을 의미합니다.
+
+🔹 REST 구성 요소
+
+1. HTTP URI (Uniform Resource Identifier)
+   → 자원(Resource)을 식별하기 위한 통일된 자원 식별자입니다.
+2. HTTP Method
+   → POST, GET, PUT, DELETE, PATCH 등을 사용하여 자원에 CRUD 작업을 적용합니다.
+
+🔹 CRUD란?
+
+CRUD는 데이터 처리를 위한 기본적인 기능입니다.
+
+-   Create : 데이터 생성 POST
+-   Read : 데이터 조회 GET
+-   Update : 데이터 수정 PUT, PATCH
+-   Delete : 데이터 삭제 DELETE
+
+    REST API란 REST의 규칙을 적용하여 설계된 API입니다.
 
 <hr>
 
@@ -69,7 +152,7 @@ https://github.com/hanbit/practical-next.js
     -	이미지를 불러오는 방법은 직접 불러오는 방법과 import하는 방법 2가지가 있다
     -	이미지의 경로는 /images/[이미지 이름.확장자]로 합니다. 이 때 public은 생략
 
-```
+```js
 import Image from 'next/image'
 202030408 김진석
 export default function About() {
@@ -87,36 +170,36 @@ export default function About() {
 
 -   fill은 화면에 꽉 차게 출력 - width, height와 함께 사용할 수 없다
 
-```
-import Image from 'next/image'
+```js
+import Image from 'next/image';
 
 export default function About() {
-  return (
-    <div>
-      <Image src="/images/person.jpg" alt="person" layout="fill" />
-    </div>
-  )
+    return (
+        <div>
+            <Image src="/images/person.jpg" alt="person" layout="fill" />
+        </div>
+    );
 }
 ```
 
 -   responsive는 부모 요소의 크기에 따라서 이미지의 크기가 변함
 -   width와 height는 반드시 작성해야 함
 
-```
-import Image from 'next/image'
+```js
+import Image from 'next/image';
 
 export default function About() {
-  return (
-    <div>
-      <Image src="/images/person.jpg" alt="person" layout="responsive" width={300} height={500} />
-    </div>
-  )
+    return (
+        <div>
+            <Image src="/images/person.jpg" alt="person" layout="responsive" width={300} height={500} />
+        </div>
+    );
 }
 ```
 
 -   실습코드
 
-```
+```js
 20203048
 import 하거나 직접 입력하거나 두가지 방법 사용
 
@@ -145,10 +228,10 @@ export default page;
 -   만일 파일이 없다면 Project root에 추가해 주면 된다
 -   파일의 초기 상태는 다음과 같다
 
-```
+```js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+    reactStrictMode: true,
 };
 
 export default nextConfig;
@@ -157,17 +240,17 @@ export default nextConfig;
 -   nextConfig에 images를 추가합니다.
 -   간단하게 domains만 등록해 줘도 되지만, 공식 사이트의 추천은 두 번째 코드와 같습니다.
 
-```
+```js
 const nextConfig = {
-  images: {
-    domains: ['cdn.pixabay.com'],
-  },
+    images: {
+        domains: ['cdn.pixabay.com'],
+    },
 };
 
 export default nextConfig;
 ```
 
-```
+```js
 추천 코드
 const nextConfig = {
   images: {
@@ -191,29 +274,29 @@ export default nextConfig;
 -   나머지는 local image 사용법과 같다
 -   이미지가 정상적으로 출력되면 다운로드 받아 이미지의 상태를 확인
 
-```
-import Image from 'next/image'
+```js
+import Image from 'next/image';
 
 export default function About() {
-  return (
-    <div>
-      <Image
-        src={"https://cdn.pixabay.com/photo/2023/03/14/23/55/darling-7853389_1280.jpg"}
-        width={300}
-        height={500}
-      />
-    </div>
-  )
+    return (
+        <div>
+            <Image
+                src={'https://cdn.pixabay.com/photo/2023/03/14/23/55/darling-7853389_1280.jpg'}
+                width={300}
+                height={500}
+            />
+        </div>
+    );
 }
 ```
 
 -   실습 코드
 
-```
+```js
 import React from 'react';
 import Galxy1 from '/public/images/galxy1.jpg';
 import Image from 'next/image';
-202030408
+202030408;
 const page = () => {
     return (
         <>
@@ -222,7 +305,7 @@ const page = () => {
             <Image src={Galxy1} alt="galxy1" width={1720} height={1024} />
             <Image src="/images/galxy2.jpg" alt="galxy2" width={1720} height={1024} />
             {/* 외부 서버 이미지 출력 */}
-            김진석
+
             <Image
                 src={'https://cdn.pixabay.com/photo/2016/08/04/14/04/space-1569133_1280.jpg'}
                 width={1720}
@@ -233,7 +316,6 @@ const page = () => {
 };
 
 export default page;
-
 ```
 
 ## 처리되지 않은 런타임 에러 (Unhandled Runtime Error)
@@ -244,11 +326,11 @@ export default page;
 
 서버에서의 예상 HTML 구조:
 
-```
+```js
 <div>
-  <div>
-    <h1></h1>
-  </div>
+    <div>
+        <h1></h1>
+    </div>
 </div>
 ```
 
@@ -394,8 +476,9 @@ next-js-app/
 
 -   foo 라는 파일을 슬러그로 사용하고싶을시 , 새로운 폴더를 만들고 그 안에 슬러그 폴더를 넣는다
 -   단 root에 슬러그를 만들시에 1개 이상을 만들면 안됨 -> 어떤 슬러그를 사용할지 모르기 때문
+    js
 
-```
+```js
 export default function page(props) {
     console.log(props);
     return (
@@ -407,7 +490,6 @@ export default function page(props) {
         </>
     );
 }
-
 ```
 
 # 1. Page Project Layout - \_app
@@ -416,11 +498,11 @@ export default function page(props) {
 -   페이지에 적용할 공통 레이아웃을 선언하는 곳임
 -   기본 코드는 다음과 같다
 
-```
-import "@/styles/globals.css";
+```js
+import '@/styles/globals.css';
 
 export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+    return <Component {...pageProps} />;
 }
 ```
 
@@ -438,7 +520,7 @@ export default function App({ Component, pageProps }) {
 -   만일 로직이나 스타일이 필요하다면 \_app.jsx에 선언해야 함
 -   기본 코드는 다음과 같다
 
-```
+```js
 import { Html, Head, Main, NextScript } from "next/document";
 202030408 김진석
 export default function Document() {
@@ -458,7 +540,7 @@ export default function Document() {
 
 -   다음은 수정한 예
 
-```
+```js
 import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
@@ -490,7 +572,7 @@ return (
 -   이 파일은 삭제해도 프로젝트를 실행하면 자동으로 다시 생겨난다
 -   프로젝트를 생성할 때 생성된 기본 코드는 다음과 같다
 
-```
+```js
 202030408 김진석
 export const metadata = {
 title: 'Next.js',
@@ -514,7 +596,7 @@ return (
 -   이럴 때는 각각의 page.jsx에 다음 코드를 추가해 주면 된다
 -   추가하지 않은 페이지는 layout.jsx에서 정의한 title이 적용됨
 
-```
+```js
 export const metadata = {
   title: 'Hello, Next.js!',
 };
@@ -532,13 +614,13 @@ export const metadata = {
 
 # 2. App Project Layout – meta data
 
-```
+```js
 export const metadata = {
-  title: {
-    default: 'Next.js',
-    template: '%s | Next.js',
-  },
-  description: 'Generated by Next.js',
+    title: {
+        default: 'Next.js',
+        template: '%s | Next.js',
+    },
+    description: 'Generated by Next.js',
 };
 ```
 
@@ -553,19 +635,19 @@ export const metadata = {
 -   공통 레이아웃은 body 태그에 추가해 주면 됨
 -   이때 children prop을 삭제하지 않도록 주의
 
-```
-KJS 김진석
+```js
+// KJS 김진석
 export const metadata = {
-  title: 'Next.js',
-  description: 'Generated by Next.js',
+    title: 'Next.js',
+    description: 'Generated by Next.js',
 };
 
 export default function RootLayout({ children }) {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
+    return (
+        <html lang="en">
+            <body>{children}</body>
+        </html>
+    );
 }
 ```
 
@@ -575,17 +657,21 @@ export default function RootLayout({ children }) {
 -   이때 children prop을 삭제하지 않도록 주의
 -   다음은 추가한 코드와 출력 화면의 예시
 
-```
+```js
 export default function RootLayout({ children }) {
-  return (
-    <html lang="ko">
-      <body>
-        <header><h1>===Header===</h1></header>
-        <main>{children}</main>
-        <footer><h2>---Footer---</h2></footer>
-      </body>
-    </html>
-  );
+    return (
+        <html lang="ko">
+            <body>
+                <header>
+                    <h1>===Header===</h1>
+                </header>
+                <main>{children}</main>
+                <footer>
+                    <h2>---Footer---</h2>
+                </footer>
+            </body>
+        </html>
+    );
 }
 ```
 
@@ -594,14 +680,14 @@ export default function RootLayout({ children }) {
 -   만일 특정 페이지나, 페이지 그룹에 레이아웃을 추가하고 싶다면 해당 디렉토리에 layout.jsx 파일을 만들어 주면 됨
 -   다음은 추가한 코드와 출력 화면의 예시
 
-```
+```js
 export default function HelpLayout({ children }) {
-  return (
-    <div>
-      <h2>*** sub layout ***</h2>
-      {children}
-    </div>
-  );
+    return (
+        <div>
+            <h2>*** sub layout ***</h2>
+            {children}
+        </div>
+    );
 }
 ```
 
@@ -610,18 +696,18 @@ export default function HelpLayout({ children }) {
 -   Link component를 이용해서 Navibar component를 만듦
 -   /components/Navibar.jsx 파일을 만든 다음 코드를 추가
 
-```
-import Link from "next/link";
-KJS
+```js
+import Link from 'next/link';
+// KJS
 export default function Navibar() {
-  return (
-    <nav>
-      <Link href="/">HOME</Link>
-      <Link href="/foo">Foo</Link>
-      <Link href="/about">About</Link>
-      <Link href="/help">Help</Link>
-    </nav>
-  );
+    return (
+        <nav>
+            <Link href="/">HOME</Link>
+            <Link href="/foo">Foo</Link>
+            <Link href="/about">About</Link>
+            <Link href="/help">Help</Link>
+        </nav>
+    );
 }
 ```
 
@@ -686,18 +772,18 @@ export default function Navibar() {
 -   이미지를 불러오는 방법은 직접 불러오는 방법과 import하는 방법 2가지가 있다
 -   직접 불러올 때 경로는 /images/[이미지 이름.확장자]로 하면 됨
 
-```
+```js
 import Image from 'next/image';
-Koes Jin
+// Koes Jin
 export default function About() {
-  return (
-    <div>
-      <h1>About</h1>
-      <p>This is the about page</p>
-      <Image src="/images/person.jpg" alt="person" width={300} height={500} />
-      <Image src="/images/woman.jpg" alt="woman" width={300} height={500} />
-    </div>
-  );
+    return (
+        <div>
+            <h1>About</h1>
+            <p>This is the about page</p>
+            <Image src="/images/person.jpg" alt="person" width={300} height={500} />
+            <Image src="/images/woman.jpg" alt="woman" width={300} height={500} />
+        </div>
+    );
 }
 ```
 
@@ -707,20 +793,20 @@ export default function About() {
 -   Import 경로에는 /public을 반드시 넣어줘야 함
 -   같은 이미지를 같은 페이지에서 여러 번 사용할 때 편리
 
-```
+```js
 import Image from 'next/image';
 import foo from '/public/images/person.jpg';
 import bar from '/public/images/woman.jpg';
 
 export default function About() {
-return (
-<div>
-<h1>About</h1>
-<p>This is the about page</p>
-<Image src={foo} alt="person" width={300} height={500} />
-<Image src={bar} alt="woman" width={300} height={500} />
-</div>
-);
+    return (
+        <div>
+            <h1>About</h1>
+            <p>This is the about page</p>
+            <Image src={foo} alt="person" width={300} height={500} />
+            <Image src={bar} alt="woman" width={300} height={500} />
+        </div>
+    );
 }
 ```
 
@@ -734,8 +820,8 @@ return (
 
 -   blog 를 슬러그로 만들던가 , foo를 슬러그 또는 기본으로 사용해서 여러가지 코드 실습
 
-```
-202030408 김진석
+```js
+// 202030408 김진석
 import { useRouter } from 'next/router';
 
 export default function Foo() {
@@ -765,7 +851,7 @@ export default function Foo() {
 
 ## App Router 실습 코드
 
-```
+```js
 /foo
 export default async function Foo(props) {
     return (
@@ -778,7 +864,7 @@ export default async function Foo(props) {
 
 ```
 
-```
+```js
 /foo/입력값 ([fooId 이기 떄문])
 export default function FooId({ params, searchParams }) {
     return (
@@ -793,10 +879,10 @@ export default function FooId({ params, searchParams }) {
 
 ```
 
-```
+```js
 /foo/입력값/bar -> pagerouter와 다르게 foo/bar가 안됨
 export default async function Bar(props) {
-  202030408 김진석
+  // 202030408 김진석
     return (
         <div>
             <h1>App Router</h1>
@@ -807,7 +893,7 @@ export default async function Bar(props) {
 
 ```
 
-```
+```js
 export default function page(props) {
     console.log(props);
     return (
@@ -819,7 +905,6 @@ export default function page(props) {
         </>
     );
 }
-
 ```
 
 <hr>
@@ -840,7 +925,7 @@ export default function page(props) {
 
 -   만일 데이터가 자주 변하지 않는다면 SSG와 ISR을 사용해서 데이터를 10분 동안 캐싱할 수 있다
 
-```
+```js
 import fetch from 'isomorphic-unfetch';
 import Dashboard from './components/Dashboard';
 
@@ -856,24 +941,20 @@ export async function getStaticProps() {
             user: userData,
             data: dashboardData,
         },
-        revalidate: 600 // 시간을 초 단위로 나타낸 값 (10분)
+        revalidate: 600, // 시간을 초 단위로 나타낸 값 (10분)
     };
 }
-202030408 김진석
+// 202030408 김진석
 
 function IndexPage(props) {
     return (
         <div>
-            <Dashboard
-                user={props.user}
-                data={props.data}
-            />
+            <Dashboard user={props.user} data={props.data} />
         </div>
     );
 }
 
 export default IndexPage;
-
 ```
 
 -   Next.js 공식 문서의 getStaticProps 함수의 설명을 참고
@@ -886,7 +967,7 @@ https://nextjs.org/docs/pages/building-your-application/data-fetching/incrementa
 
 ## 예제
 
-```
+```js
 export async function getStaticProps() {
     const res = await fetch('https://api.github.com/repos/vercel/next.js');
     const repo = await res.json();
@@ -896,23 +977,18 @@ export async function getStaticProps() {
     };
 }
 
-202030408 김진석
+// 202030408 김진석
 
 export default function Chapter02_06({ repo }) {
-    return (
-        <div className={styles.center}>
-            {repo.name}
-        </div>
-    );
+    return <div className={styles.center}>{repo.name}</div>;
 }
-
 ```
 
 ## 예제
 
-```
+```js
 
-202030408 김진석
+// 202030408 김진석
 
 export default async function Foo() {
     let data = await fetch('https://api.vercel.app/blog');
@@ -952,7 +1028,7 @@ export default async function Foo() {
 -   계층적 구조 라우팅: /pages/posts와 같은 디렉터리 구조를 통해 계층적인 라우팅 규칙을 만들 수 있다
 -   동적 라우팅: /pages/posts/[slug].js와 같이 파일명을 사용하여 동적 라우팅을 지원하며, 이는 동적 URL에 대응하는 JSX를 반환한다
 
-```
+```js
 function Homepage() {
     return <div>This is the homepage</div>;
 }
@@ -976,7 +1052,7 @@ export default Homepage;
 -   내장 getServerSideProps 함수를 통해 URL에서 동적으로 [name] 변수 값을 가져온다
 -   greet/Mitch 주소로 가면 'Hello, Mitch!'라는 문구가 렌더링 된다.
 
-```
+```js
 export async function getServerSideProps({ params }) {
     const { name } = params;
     return {
@@ -987,13 +1063,10 @@ export async function getServerSideProps({ params }) {
 }
 
 function Greet(props) {
-    return (
-        <h1>Hello, {props.name}!</h1>
-    );
+    return <h1>Hello, {props.name}!</h1>;
 }
 
 export default Greet;
-
 ```
 
 <hr>
@@ -1015,21 +1088,21 @@ export default Greet;
 -   sass가 +으로 정의 = 로 사용
 -   scss가 @mixin으로 정의 include로 사용
 
-```
-202030408 김진석
+```css
+/* // 202030408 김진석
 
-    // SCSS 예시
+// SCSS 예시 */
 
 .button {
-color: blue;
-&:hover {
-color: red;
-}
+    color: blue;
+    &:hover {
+        color: red;
+    }
 }
 ```
 
-```
-// Sass 예시
+```css
+/* // Sass 예시 */
 .button
   color: blue
   &:hover
@@ -1048,27 +1121,26 @@ color: red;
 
 -   이 파일을 root에 만들고 객체를 export하면 해당 내용은 Next.js의 기본 설정 값을 덮음
 
-```
-202030408 김진석
+```js
+// 202030408 김진석
 
 module.exports = {
-  webpack: (config, options) => {
-    config.module.rules.push({
-      test: /\.js/,
-      use: [
-        options.defaultLoaders.babel,
-        // 이 부분의 내용은 예시이기 때문에
-        // 실제로 사용하면 애플리케이션이 작동하지 않습니다.
-        {
-          loader: "my-custom-loader", // 사용할 로더 지정
-          options: loaderOptions, // 로더의 옵션 지정
-        },
-      ],
-    });
-    return config;
-  },
+    webpack: (config, options) => {
+        config.module.rules.push({
+            test: /\.js/,
+            use: [
+                options.defaultLoaders.babel,
+                // 이 부분의 내용은 예시이기 때문에
+                // 실제로 사용하면 애플리케이션이 작동하지 않습니다.
+                {
+                    loader: 'my-custom-loader', // 사용할 로더 지정
+                    options: loaderOptions, // 로더의 옵션 지정
+                },
+            ],
+        });
+        return config;
+    },
 };
-
 ```
 
 # 몇가지 일어날 수 있는 오류
@@ -1206,15 +1278,14 @@ module.exports = {
 
 -   외부 API를 호출하지 않으며 항상 같은 문자열만 표시
 
-```
+```js
 function IndexPage() {
-  return <div>This is the index page.</div>;
+    return <div>This is the index page.</div>;
 }
 
 export default IndexPage;
 
-202030408 김진석
-
+// 202030408 김진석
 ```
 
 -   다음 코드는 페이지를 요청할 때마다 사용자 환영 문구를 표시
@@ -1223,25 +1294,24 @@ export default IndexPage;
 
 -   이 경우 미리 예약된 getServerSideProps() 함수를 사용
 
-```
+```js
 export async function getServerSideProps() {
-  const userRequest = await fetch('https://example.com/api/user');
-  const userData = await userRequest.json();
+    const userRequest = await fetch('https://example.com/api/user');
+    const userData = await userRequest.json();
 
-  return {
-    props: {
-      user: userData,
-    },
-  };
+    return {
+        props: {
+            user: userData,
+        },
+    };
 }
-202030408 김진석
+// 202030408 김진석
 
 function IndexPage(props) {
-  return <div>Welcome Koes Jin, {props.user.name}!</div>;
+    return <div>Welcome Koes Jin, {props.user.name}!</div>;
 }
 
 export default IndexPage;
-
 ```
 
 -   페이지에 대한 요청이 들어오면 서버가 REST API를 호출해서 필요한 사용자 정보를 가져옴
@@ -1270,14 +1340,11 @@ export default IndexPage;
 -   CSR로 생성한 앱의 HTML을 보면 div 태그 하나 밖에 없다 그래서 빈 화면만 보임
 -   빌드 과정에서 js와 css 파일을 HTML 페이지에 불러오도록 만들고, root div에 렌더링 함
 
-```
+```js
 <body>
-  <noscript>
-    You need to enable JavaScript to run this app.
-  </noscript>
-  <div id="root">Koes Jin React2</div>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root">Koes Jin React2</div>
 </body>
-
 ```
 
 # CSR을 사용할 떄의 주요 이점
@@ -1322,60 +1389,49 @@ export default IndexPage;
 
 -   이 문제는 hljs 호출을 useEffect 훅으로 감싸서 해결할 수 있다
 
-```
+```js
 import Head from 'next/head';
 import hljs from 'highlight.js';
 import javascript from 'highlight.js/lib/languages/javascript';
 
 function Highlight({ code }) {
-  hljs.registerLanguage('javascript', javascript);
-  hljs.initHighlighting();
+    hljs.registerLanguage('javascript', javascript);
+    hljs.initHighlighting();
 
-  202030408 김진석
-  return (
-    <>
-      <Head>
-        <link rel='stylesheet' href='/highlight.css' />
-      </Head>
-      <pre>
-        <code className='js'>{code}</code>
-      </pre>
-    </>
-  );
+    // 202030408 김진석
+    return (
+        <>
+            <Head>
+                <link rel="stylesheet" href="/highlight.css" />
+            </Head>
+            <pre>
+                <code className="js">{code}</code>
+            </pre>
+        </>
+    );
 }
 
 export default Highlight;
-
 ```
 
 -   다음과 같이 React.useEffect와 React.useState를 함께 써서 특정 컴포넌트를 정확히 클라이언트에서만 렌더링하도록 지정할 수 있다
 
-```
+```js
 import { useEffect, useState } from 'react';
 import Highlight from '../components/Highlight';
 
 function UseEffectPage() {
-  const [isClient, setIsClient] = useState(false);
+    const [isClient, setIsClient] = useState(false);
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
-  return (
-    <div>
-      {isClient && (
-        <Highlight
-          code={"console.log('Hello, world!')"}
-          language='js'
-        />
-      )}
-    </div>
-  );
+    return <div>{isClient && <Highlight code={"console.log('Hello, world!')"} language="js" />}</div>;
 }
-202030408 김진석
+// 202030408 김진석
 
 export default UseEffectPage;
-
 ```
 
 # process.browser 변수
@@ -1402,28 +1458,24 @@ export default UseEffectPage;
 
 -   즉, ssr옵션으로 클라이언트에서만 코드를 실행한다고 명시하는 것이다
 
-```
+```js
 import dynamic from 'next/dynamic';
 
-202030408 김진석
+// 202030408 김진석
 
-const Highlight = dynamic(
-  () => import('../components/Highlight'),
-  { ssr: false }
-);
+const Highlight = dynamic(() => import('../components/Highlight'), { ssr: false });
 
 import styles from '../styles/Home.module.css';
 
 function DynamicPage() {
-  return (
-    <div className={styles.main}>
-      <Highlight code={`console.log('Hello, world!')`} language="js" />
-    </div>
-  );
+    return (
+        <div className={styles.main}>
+            <Highlight code={`console.log('Hello, world!')`} language="js" />
+        </div>
+    );
 }
 
 export default DynamicPage;
-
 ```
 
 # 2.3 정적 사이트 생성(SSG: Static Site Generation)
@@ -1538,9 +1590,9 @@ export default DynamicPage;
 
 -   이 설정 파일을 비워 두면 오류가 발생하기 떄문에 다음 의. 내용 저장해야함
 
-```
+```js
 {
-    202030408 김진석
+    // 202030408 김진석
     "presets":["next/babel"]
 }
 ```
@@ -1551,9 +1603,9 @@ export default DynamicPage;
 
 -   그리고 .barbelrc 파일을 다음과 같이 수정
 
-```
+```js
 {
-    408 김진석
+    // 408 김진석
     "presets":["next/babel"],
     "plugins":[
         [
