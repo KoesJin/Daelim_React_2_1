@@ -121,7 +121,7 @@ CRUD는 데이터 처리를 위한 기본적인 기능입니다.
 
 ## 2. Json Server
 
-    -	Backend가 개발되기 전이거나, 외부 API가 아직 결정되지 않았다면 Local 환경에 Json Server를 구축하여 Frontend 개발을 할 때 매우 유용한 Node 패키지입니다.
+-   Backend가 개발되기 전이거나, 외부 API가 아직 결정되지 않았다면 Local 환경에 Json Server를 구축하여 Frontend 개발을 할 때 매우 유용한 Node 패키지입니다.
 
 🔹 Json Server 설치
 
@@ -147,8 +147,310 @@ $ json-server --version
 
 -   버전 예시:
 
-````bash
+```bash
 1.0.0-beta.3
+
+```
+
+## 2. Json Server
+
+-   Json-server는 다음 명령어로 실행합니다:
+
+```bash
+$ json-server ./data.json --port 3001
+```
+
+-   실행 결과 예시:
+
+```bash
+JSON Server started on PORT :3001
+Press CTRL-C to stop
+Watching ./data.json...
+
+( ˘︹˘ )
+
+Index:
+http://localhost:3001/
+
+Static files:
+Serving ./public directory if it exists
+
+Endpoints:
+http://localhost:3001/token
+http://localhost:3001/test
+```
+
+## 3. Axios 란?
+
+-   Next.js에서 REST API를 다룰 때는 보통 Axios와 fetch 중 하나를 선택하는 경우가 많습니다.
+
+-   아래는 두 가지 방법의 특징과 장단점을 비교한 내용입니다.
+
+🟦 Axios
+
+-   간편한 문법: 기본적으로 JSON 데이터를 자동 변환해주므로, res.data로 쉽게 접근할 수 있습니다.
+-   HTTP 요청 취소: 요청을 취소할 수 있는 기능이 내장되어 있습니다.
+-   요청 및 응답 인터셉터: 요청이나 응답을 가로채어 수정할 수 있는 기능이 있어, 인증 토큰 추가와 같은 작업이 간편합니다.
+-   진보된 오류 처리: HTTP 오류 코드에 따라 에러를 더 쉽게 처리할 수 있습니다.
+
+🟨 단점
+
+-   추가 패키지 설치 필요: Axios는 외부 라이브러리이기 때문에 설치가 필요하며, 코드 크기가 약간 증가합니다. 그러나 큰 차이는 없습니다.
+
+# 3. Axios 란?
+
+🟩 Fetch API
+
+-   내장 API: 브라우저에 내장되어 있어 별도의 설치가 필요 없습니다.
+-   Promise 기반: 비동기 작업을 처리하는 데 익숙한 구조입니다.
+-   스트림 처리: 데이터를 스트리밍으로 처리할 수 있어, 큰 파일을 다룰 때 유용합니다.
+
+🟨 단점
+
+-   JSON 변환 수동 처리: 응답을 JSON으로 변환할 때 res.json()을 호출해야 합니다.
+-   에러 처리 복잡성: HTTP 오류 코드(예: 404, 500)에 대한 처리가 약간 더 복잡할 수 있습니다. 기본적으로 fetch는 네트워크 오류만을 reject합니다.
+
+## 3. Axios 란?
+
+📌 결론
+
+-   복잡한 요청이나 에러 처리가 필요한 경우에는 Axios가 더 적합할 수 있습니다.
+-   간단한 요청이나 내장된 기능만 활용하고 싶다면 fetch를 사용하는 것도 좋은 선택입니다.
+-   어떤 것을 선택할지는 프로젝트의 요구 사항과 개발자의 선호도에 따라 다를 수 있습니다.
+
+## 3. Axios 설치
+
+-   axios를 설치하려면 다음 명령어를 사용합니다:
+
+```bash
+npm i axios
+```
+
+-   설치 완료 예시:
+
+```bash
+added 9 packages, and audited 322 packages in 2s
+
+130 packages are looking for funding
+run `npm fund` for details
+
+found 0 vulnerabilities
+```
+
+## 3. Axios 사용하기
+
+-   다음은 간단한 사용법 예제입니다.
+
+```js
+const res = await axios.get('https://api.example.com');
+const products = res.data; // Axios에서 응답 본문의 데이터를 가져옴
+```
+
+-   위 코드에서 axios를 사용하여 객체를 생성하고 다시 데이터를 저장하고 있습니다. 왜 그럴까요?
+-   다음은 Fetch API의 예시입니다. 비교해 보세요.
+
+```js
+fetch('https://api.example.com')
+    .then((res) => res.json()) // fetch에서는 json()으로 데이터를 추출
+    .then((data) => {
+        console.log(data); // 여기에 실제 응답 데이터가 있음
+    });
+```
+
+-   코드를 보면 2번째 라인에서 json() 함수를 사용하여 JSON 데이터를 추출하고 있습니다.
+-   Axios에서 res 객체는 통신에 필요한 데이터까지도 포함하고 있습니다. 따라서 res.data를 이용하여 JSON 데이터만 추출하는 것입니다.
+
+## 3. Axios 사용하기
+
+-   axios.get()을 통해 받아온 응답 객체인 res는 단순히 JSON 데이터만 담고 있는 것이 아니라, HTTP 통신과 관련된 다양한 정보를 포함하고 있습니다.
+
+## 🔍 응답 객체(res)의 주요 속성
+
+-   res.status: HTTP 응답 상태 코드 (예) 200, 404, 500 등
+-   res.headers: 서버로부터 받은 헤더 정보
+-   res.config: 요청에 대한 설정 정보
+-   res.statusText: 응답 상태에 대한 설명 (예) “OK”
+-   res.data: 서버가 실제로 전송한 데이터
+    👉 가장 중요한 응답 내용으로, 실제 JSON 데이터에 접근할 때 사용됩니다.
+
+-   res.data는 서버가 전송한 실제 데이터에 접근하는 속성입니다. Axios를 통해 응답 데이터를 쉽게 가져올 수 있습니다.
+
+## 3. Axios 사용하기
+
+-   위 코드에서는 비동기 데이터 로딩과 상태 관리가 제대로 고려되지 않아 몇 가지 문제가 있을 수 있습니다.
+-   특히, Next.js와 같은 리액트 기반 앱에서 비동기 데이터를 처리할 때 렌더링 주기에 맞춰 상태를 관리해야 합니다.
+
+## 🔧 개선할 부분
+
+1. useState와 useEffect 사용
+    - 비동기 데이터를 가져오는 작업은 컴포넌트의 상태(state)로 관리하는 것이 일반적입니다. 현재 코드에서는 users 데이터가 비동기적으로 로드되는데, 이를 관리하기 위해 useState와 useEffect 훅이 필요합니다.
+    - 데이터를 로드하기 전에 컴포넌트가 렌더링되기 때문에, users 변수가 초기에는 존재하지 않아 undefined 에러가 발생할 가능성이 있습니다.
+2. Loading 상태 처리
+    - 데이터를 불러오는 동안 사용자가 기다릴 수 있도록 로딩 상태를 추가하는 것이 좋습니다. 로딩 중에는 로딩 메시지나 스피너를 보여주는 것이 사용자 경험에 도움이 됩니다.
+
+### 개선된 코드
+
+```js
+//kjs
+'use client'; // 첫 줄에 추가하여 클라이언트 컴포넌트로 설정
+
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+
+export default function RestApi() {
+    // useState 이용
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // 3001에 만들어 둔 json 값들 axios로 받아오기
+                const res = await axios.get('http://localhost:3001/test');
+                setUsers(res.data);
+            } catch (error) {
+                console.error('데이터 불러오기에 실패했습니다:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    return (
+        <div>
+            {/*값 불러오기*/}
+            <h1>Axios로 불러온 데이터</h1>
+            {users.length > 0 ? (
+                users.map((user, id) => (
+                    <div key={id}>
+                        <h2>ID: {user.id}</h2>
+                        <h3>이름: {user.name}</h3>
+                        <p>타이틀: {user.title}</p>
+                        <p>본문: {user.body}</p>
+                    </div>
+                ))
+            ) : (
+                <p>데이터를 불러오는 중입니다...</p>
+            )}
+        </div>
+    );
+}
+```
+
+### jsonPlaceHolder에서 가져오기
+
+```js
+'use client'; // Next.js에서 클라이언트 컴포넌트로 설정
+
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+
+export default function RestApi() {
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true); // 로딩 상태 추가
+    const [error, setError] = useState(null); // 에러 상태 추가
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await axios.get('https://jsonplaceholder.typicode.com/users');
+                setUsers(res.data); // 데이터를 상태에 저장
+            } catch (error) {
+                setError('데이터를 불러오는 데 실패했습니다.'); // 에러 메시지 설정
+            } finally {
+                setLoading(false); // 로딩 상태 해제
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    if (loading) return <p>데이터를 불러오는 중입니다...</p>;
+    if (error) return <p>{error}</p>;
+
+    return (
+        <div>
+            <h1>Axios로 불러온 JSONPlaceholder 데이터</h1>
+            {users.map((user) => (
+                <div key={user.id}>
+                    <h2>ID: {user.id}</h2>
+                    <h3>이름: {user.name}</h3>
+                    <p>이메일: {user.email}</p>
+                    <p>
+                        주소: {user.address.street}, {user.address.city}
+                    </p>
+                    <p>경도 : {user.address.geo.lat}</p>
+                </div>
+            ))}
+        </div>
+    );
+}
+```
+
+### jsonPlaceHolder 내용 에서 별도로 추가한 코드
+
+```js
+'use client'; // Next.js에서 클라이언트 컴포넌트로 설정
+
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+
+export default function RestApi() {
+    const [users, setUsers] = useState([]);
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true); // 로딩 상태 추가
+    const [error, setError] = useState(null); // 에러 상태 추가
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [usersRes, postsRes] = await Promise.all([
+                    axios.get('https://jsonplaceholder.typicode.com/users'),
+                    axios.get('https://jsonplaceholder.typicode.com/posts'),
+                ]);
+
+                setUsers(usersRes.data); // users 데이터를 상태에 저장
+                setPosts(postsRes.data); // posts 데이터를 상태에 저장
+            } catch (error) {
+                setError('데이터를 불러오는 데 실패했습니다.'); // 에러 메시지 설정
+            } finally {
+                setLoading(false); // 로딩 상태 해제
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    if (loading) return <p>데이터를 불러오는 중입니다...</p>;
+    if (error) return <p>{error}</p>;
+
+    return (
+        <div>
+            <h1>Axios로 불러온 JSONPlaceholder 데이터</h1>
+            {users.map((user) => (
+                <div key={user.id}>
+                    <h2>ID: {user.id}</h2>
+                    <h3>이름: {user.name}</h3>
+                    <p>이메일: {user.email}</p>
+                    <p>
+                        주소: {user.address.street}, {user.address.city}
+                    </p>
+                    <p>경도 : {user.address.geo.lat}</p>
+
+                    <h3>Posts</h3>
+                    {posts
+                        .filter((post) => post.userId === user.id)
+                        .map((post) => (
+                            <div key={post.id} style={{ marginLeft: '20px' }}>
+                                <h4>Post ID: {post.id}</h4>
+                                <p>제목: {post.title}</p>
+                                <p>내용: {post.body}</p>
+                            </div>
+                        ))}
+                </div>
+            ))}
+        </div>
+    );
+}
 ```
 
 <hr>
@@ -200,7 +502,7 @@ export default function About() {
     </div>
   )
 }
-````
+```
 
 ## 1. Image component - local
 
