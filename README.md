@@ -24,13 +24,545 @@ https://github.com/hanbit/practical-next.js
 
 1️⃣1️⃣ [11주차](#11주차-강의-내용)
 
-1️⃣2️⃣ [12주차]()
+1️⃣2️⃣ [12주차](#12주차-강의-내용)
 
 1️⃣3️⃣ [13주차]()
 
 1️⃣4️⃣ [14주차]()
 
 1️⃣5️⃣ [15주차](기말고사)
+
+<hr>
+
+# 12주차 강의 내용
+
+## 07-1 UI 라이브러리
+
+UI 라이브러리, 프레임워크, 유틸리티 기능이 **필수는 아니지만**,  
+생산성을 높이고 UI의 **일관성**을 유지하는 데 큰 도움을 줄 수 있습니다.
+
+이번 장에서는 아래의 3가지 프레임워크에 대해 간단히 알아보겠습니다.
+
+---
+
+### 📌 Chakra UI
+
+-   **설명**: 손쉽게 접근성과 스타일링이 가능한 UI 라이브러리입니다.
+-   **장점**: 컴포넌트 기반으로 생산성이 높으며, 스타일링이 직관적입니다.
+
+### 📌 [TailwindCSS](https://tailwindcss.com)
+
+-   **설명**: 유틸리티 클래스 기반의 CSS 프레임워크로, 빠르고 유연한 스타일링이 가능합니다.
+-   **장점**: 클래스만으로 스타일을 지정해 코드 가독성이 높고, 커스터마이징이 용이합니다.
+
+### 📌 Headless UI
+
+-   **설명**: UI 로직만 제공하는 비주얼 프레임워크로, 스타일링을 커스터마이징 할 수 있습니다.
+-   **장점**: 스타일링에 제한이 없어 유연하게 디자인을 적용할 수 있습니다.
+
+---
+
+## 07-2 Chakra UI
+
+Chakra UI는 오픈소스 컴포넌트 라이브러리로, 모듈화가 잘 되어 있으며 **접근성**이 뛰어나고 보기 좋은 UI를 만드는데 유용합니다.
+
+---
+
+### 🌟 주요 특징
+
+-   다양한 **내장 컴포넌트** 제공: 버튼, 모달, 입력 필드 등 여러 UI 요소를 손쉽게 사용할 수 있습니다.
+-   **Dark Mode 및 Light Mode** 지원: 사용자 환경에 맞는 컬러 모드를 설정할 수 있습니다.
+-   **`useColorMode` 훅** 지원: 현재 사용 중인 컬러 모드를 손쉽게 확인하고 변경할 수 있습니다.
+-   **컴포넌트 조합** 기능: 기본 컴포넌트를 활용해 새로운 컴포넌트를 쉽게 만들 수 있습니다.
+-   **타입스크립트** 기반: 개발자에게 안정성과 편리함을 제공합니다.
+
+---
+
+### 🚀 Chakra UI의 장점
+
+-   React와 Next.js와의 높은 호환성으로 프론트엔드 개발에 최적화된 환경을 제공합니다.
+-   **[Chakra UI 공식 사이트](https://chakra-ui.com/)**
+
+## 07-3 Tailwind CSS
+
+Tailwind CSS는 다른 프레임워크와 달리 **CSS 규칙만**을 제공하는 유틸리티 중심의 프레임워크입니다. 필요한 스타일링만을 제공하기 때문에 **디자인의 자유도**가 높습니다.
+
+---
+
+### 🌟 주요 특징
+
+-   **CSS 규칙만 제공**: 자바스크립트 모듈이나 리액트 컴포넌트를 제공하지 않기 때문에 필요한 경우 직접 컴포넌트를 만들어 사용해야 합니다.
+-   **유연한 디자인**: 변수값을 조정하여 개성 있는 디자인을 만들 수 있으며, 디자인에 대한 자유도가 매우 높습니다.
+-   **다크 모드 및 라이트 모드 지원**: 손쉽게 다크 모드와 라이트 모드를 적용할 수 있습니다.
+-   **빌드 최적화**: 빌드 시 사용하지 않는 클래스는 자동으로 제거되므로 최적화 수준이 높습니다.
+-   **반응형 규칙 제공**: CSS 클래스 접두사를 통해 모바일, 데스크톱, 태블릿 등 다양한 화면 크기에 맞는 규칙을 설정할 수 있습니다.
+    -   `sm(640px)`, `md(768px)`, `lg(1024px)`, `xl(1280px)`, `2xl(1536px)`
+
+---
+
+### 🚀 Tailwind CSS의 장점
+
+-   프로젝트에 필요한 최소한의 스타일링만 추가할 수 있어 **성능이 최적화**됩니다.
+-   디자인을 유연하게 구성할 수 있어 다양한 환경에서 적응형 디자인을 쉽게 구축할 수 있습니다.
+-   **[Tailwind CSS 공식 사이트](https://tailwindcss.com/)**
+
+## 07-4 Headless UI
+
+Headless UI는 **TailwindCSS를 만든 Tailwind Labs 팀**의 무료 오픈소스 프로젝트입니다.
+
+---
+
+### 🌟 Headless UI의 필요성
+
+-   **TailwindCSS**는 웹 컴포넌트 내부에서 사용할 수 있는 **CSS 클래스만** 제공합니다.
+-   따라서 모달, 버튼 등 **동적 컴포넌트**를 만들려면 직접 자바스크립트 코드로 구현해야 합니다.
+-   이러한 단점을 보완하기 위해 **Headless UI**가 탄생했습니다.
+
+---
+
+### 🧩 Headless UI의 특징
+
+-   **CSS 클래스만 제공**하는 것이 아닌, 동작이 포함된 **동적 컴포넌트**를 제공합니다.
+-   TailwindCSS와 **Headless UI**를 함께 설치하고 사용할 수 있으며,  
+    공식 사이트에서는 **Headless UI만 설치**하는 것으로 안내되어 있으니 확인이 필요합니다.
+
+---
+
+### 🔗 참고 링크
+
+-   **[Headless UI 공식 사이트](https://headlessui.com/)**
+
+# 1. Project 생성
+
+Tailwind 사용을 위해 프로젝트를 새로 생성합니다.
+
+---
+
+### 🌟 주요 설정 사항
+
+-   **프로젝트 재설정**: 이미 생성된 프로젝트에 설정할 수도 있지만, 과정이 복잡하므로 새로 생성하는 것이 편리합니다.  
+    _교재에도 설정 방법이 나와 있습니다._
+
+-   **Next.js 14 버전 권장**: 프로젝트는 **Next.js 14** 버전으로 설정합니다.
+-   **버전 호환성**: 현재 **15.0.2 버전**이 출시되었으나, Tailwind와의 호환성이 아직 완벽하지 않으므로 주의가 필요합니다.
+
+---
+
+### 🔧 프로젝트 생성 명령어
+
+**기말고사에서도 14 버전으로 만들어아햠**
+
+```bash
+npx create-next-app@14
+```
+
+# 2. Tailwind CSS
+
+Tailwind CSS 설정 및 사용 방법에 대해 단계별로 알아봅니다.
+
+---
+
+### 🌐 사이트 접근 및 설정
+
+1. **구글 검색**: `tailwind`를 검색하여 공식 사이트에 접속합니다.
+2. **홈 화면 확인**: Home 화면에서 Tailwind로 가능한 기능을 미리 확인할 수 있습니다.
+3. **Get Started** 버튼 클릭: 설치 과정부터 설정 및 간단한 사용법을 확인할 수 있습니다.
+
+---
+
+### 📖 설치 및 초기 설정
+
+4. **Framework Guides** 탭에서 Next.js 선택: Next.js 관련 설정 내용을 확인합니다.
+    - 만약 프로젝트를 Tailwind를 사용하여 생성했다면, 이 과정은 생략 가능합니다.
+5. **파일 생성**: `App/tailwind/page.js` 파일을 생성하고, 마지막에 `hello world!` 메시지를 출력하여 동작을 확인합니다.
+
+---
+
+### 🧩 컴포넌트 연습
+
+6. 상단의 **Component 메뉴**를 클릭하여 제공되는 여러 컴포넌트를 연습해봅니다.
+
+---
+
+### 🔗 추가 참고 사이트
+
+-   **Tailwind의 발전**: 처음에는 CSS 라이브러리로 시작했지만, 이제는 UI 라이브러리로도 확장되었습니다.
+-   [Tailwind CSS 공식 사이트](https://tailwindcss.com/)와 [Tailwind UI 사이트](https://tailwindui.com/)
+
+-   tailwind 실습코드
+
+```jsx
+//202030408 김진석
+export default function Tailwind() {
+    return (
+        <>
+            <div class="bg-white border-slate-100 dark:bg-slate-800 dark:border-slate-500 border-b rounded-t-xl p-4 pb-6 sm:p-10 sm:pb-8 lg:p-6 xl:p-10 xl:pb-8 space-y-6 sm:space-y-8 lg:space-y-6 xl:space-y-8">
+                <div class="flex items-center space-x-4">
+                    <img
+                        src="/full-stack-radio.png"
+                        alt=""
+                        width="88"
+                        height="88"
+                        class="flex-none rounded-lg bg-slate-100"
+                        loading="lazy"
+                    />
+                    <div class="min-w-0 flex-auto space-y-1 font-semibold">
+                        <p class="text-cyan-500 dark:text-cyan-400 text-sm leading-6">
+                            <abbr title="Episode">Ep.</abbr> 128
+                        </p>
+                        <h2 class="text-slate-500 dark:text-slate-400 text-sm leading-6 truncate">
+                            Scaling CSS at Heroku with Utility Classes
+                        </h2>
+                        <p class="text-slate-900 dark:text-slate-50 text-lg">Full Stack Radio</p>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div class="relative">
+                        <div class="bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                            <div
+                                class="bg-cyan-500 dark:bg-cyan-400 w-1/2 h-2"
+                                role="progressbar"
+                                aria-label="music progress"
+                                aria-valuenow="1456"
+                                aria-valuemin="0"
+                                aria-valuemax="4550"
+                            ></div>
+                        </div>
+                        <div class="ring-cyan-500 dark:ring-cyan-400 ring-2 absolute left-1/2 top-1/2 w-4 h-4 -mt-2 -ml-2 flex items-center justify-center bg-white rounded-full shadow">
+                            <div class="w-1.5 h-1.5 bg-cyan-500 dark:bg-cyan-400 rounded-full ring-1 ring-inset ring-slate-900/5"></div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-sm leading-6 font-medium tabular-nums">
+                        <div class="text-cyan-500 dark:text-slate-100">24:16</div>
+                        <div class="text-slate-500 dark:text-slate-400">75:50</div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-slate-50 text-slate-500 dark:bg-slate-600 dark:text-slate-200 rounded-b-xl flex items-center">
+                <div class="flex-auto flex items-center justify-evenly">
+                    <button type="button" aria-label="Add to favorites">
+                        <svg width="24" height="24">
+                            <path
+                                d="M7 6.931C7 5.865 7.853 5 8.905 5h6.19C16.147 5 17 5.865 17 6.931V19l-5-4-5 4V6.931Z"
+                                fill="currentColor"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+                    </button>
+                    <button type="button" class="hidden sm:block lg:hidden xl:block" aria-label="Previous">
+                        <svg width="24" height="24" fill="none">
+                            <path
+                                d="m10 12 8-6v12l-8-6Z"
+                                fill="currentColor"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                            <path
+                                d="M6 6v12"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+                    </button>
+                    <button type="button" aria-label="Rewind 10 seconds">
+                        <svg width="24" height="24" fill="none">
+                            <path
+                                d="M6.492 16.95c2.861 2.733 7.5 2.733 10.362 0 2.861-2.734 2.861-7.166 0-9.9-2.862-2.733-7.501-2.733-10.362 0A7.096 7.096 0 0 0 5.5 8.226"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                            <path
+                                d="M5 5v3.111c0 .491.398.889.889.889H9"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+                    </button>
+                </div>
+                <button
+                    type="button"
+                    class="bg-white text-slate-900 dark:bg-slate-100 dark:text-slate-700 flex-none -my-2 mx-auto w-20 h-20 rounded-full ring-1 ring-slate-900/5 shadow-md flex items-center justify-center"
+                    aria-label="Pause"
+                >
+                    <svg width="30" height="32" fill="currentColor">
+                        <rect x="6" y="4" width="4" height="24" rx="2" />
+                        <rect x="20" y="4" width="4" height="24" rx="2" />
+                    </svg>
+                </button>
+                <div class="flex-auto flex items-center justify-evenly">
+                    <button type="button" aria-label="Skip 10 seconds">
+                        <svg width="24" height="24" fill="none">
+                            <path
+                                d="M17.509 16.95c-2.862 2.733-7.501 2.733-10.363 0-2.861-2.734-2.861-7.166 0-9.9 2.862-2.733 7.501-2.733 10.363 0 .38.365.711.759.991 1.176"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                            <path
+                                d="M19 5v3.111c0 .491-.398.889-.889.889H15"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+                    </button>
+                    <button type="button" class="hidden sm:block lg:hidden xl:block" aria-label="Next">
+                        <svg width="24" height="24" fill="none">
+                            <path
+                                d="M14 12 6 6v12l8-6Z"
+                                fill="currentColor"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                            <path
+                                d="M18 6v12"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+                    </button>
+                    <button
+                        type="button"
+                        class="rounded-lg text-xs leading-6 font-semibold px-2 ring-2 ring-inset ring-slate-500 text-slate-500 dark:text-slate-100 dark:ring-0 dark:bg-slate-500"
+                    >
+                        1x
+                    </button>
+                </div>
+            </div>
+            <h1 className="text-3xl font-bold underline mb-4">Tailwind Page</h1>
+            <div className="space-y-4">
+                <div className="w-96 bg-white shadow rounded p-4">w-96</div>
+                <div className="w-80 bg-white shadow rounded p-4">w-80</div>
+                <div className="w-72 bg-red-500 shadow rounded p-4">w-72</div> {/* 배경 색상을 빨간색으로 설정 */}
+                <div className="w-64 bg-blue-500 shadow rounded p-4">w-64</div> {/* 배경 색상을 파란색으로 설정 */}
+                <div className="w-56 bg-green-500 shadow rounded p-4">w-56</div> {/* 배경 색상을 초록색으로 설정 */}
+                <div className="w-52 bg-yellow-500 shadow rounded p-4">w-52</div> {/* 배경 색상을 노란색으로 설정 */}
+                <div className="w-48 bg-purple-500 shadow rounded p-4">w-48</div> {/* 배경 색상을 보라색으로 설정 */}
+            </div>
+        </>
+    );
+}
+```
+
+# 2. Tailwind CSS
+
+Tailwind CSS를 사용할 때 주의해야 할 사항과 테스트 방법에 대해 알아봅니다.
+
+---
+
+### ⚠️ 주의 사항
+
+-   **React 환경**: Tailwind는 React를 기준으로 하여, 바로 코드를 사용하면 오류가 발생할 수 있습니다.
+-   **Test 코드 신뢰성**: 공식 사이트([tailwindcss.com](https://tailwindcss.com))에 있는 테스트 코드는 오류가 적습니다. 참고하여 사용하는 것이 좋습니다.
+
+---
+
+### 🔍 테스트 및 오류 해결
+
+1. **공식 문서 참고**: [tailwindcss.com](https://tailwindcss.com)에서 제공하는 Doc을 참고하여 테스트를 진행합니다.
+2. **img 태그 오류**: 테스트 과정에서 `img` 태그와 같은 몇 가지 요소는 추가 설정이 없으면 오류가 발생할 수 있습니다.
+3. **class 속성 변경**: React에서는 `class` 대신 **`className`**을 사용해야 오류가 발생하지 않습니다.
+
+---
+
+# 3. Headless UI
+
+Headless UI 사용 방법과 테스트 과정에 대해 단계별로 정리해 보았습니다.
+
+---
+
+### 🌐 사이트 접근 및 정보 확인
+
+1. **구글 검색**: `headless ui`를 검색하여 공식 사이트에 접속합니다.
+2. **Home 화면 확인**: Home 화면에서 **GitHub 아이콘**을 클릭하여 Headless UI의 일반적인 사항을 확인합니다.
+
+---
+
+### 📝 파일 생성 및 테스트
+
+3. **파일 생성**: `App/headless/page.js` 파일을 생성합니다. (오타 주의: "haedless"가 아닌 "headless")
+4. **Dropdown Menu 테스트**: Dropdown Menu 컴포넌트를 테스트하여 동작을 확인합니다.
+5. **Button 테스트 및 Tailwind 클래스 수정**: Button 컴포넌트를 테스트하고 Tailwind CSS 클래스를 사용해 스타일을 조정해 봅니다.
+
+---
+
+-   실습 코드
+
+```jsx
+// 페이지 컴포넌트를 Client Component로 지정
+'use client';
+
+import { Switch } from '@headlessui/react';
+import { useState } from 'react';
+
+function Example() {
+    const [enabled, setEnabled] = useState(false);
+
+    return (
+        <Switch
+            checked={enabled}
+            onChange={setEnabled}
+            className={`${
+                enabled ? 'bg-blue-600' : 'bg-gray-200'
+            } relative inline-flex h-6 w-11 items-center rounded-full`}
+        >
+            <span className="sr-only">Enable notifications</span>
+            <span
+                className={`${
+                    enabled ? 'translate-x-6' : 'translate-x-1'
+                } inline-block h-4 w-4 transform bg-white rounded-full transition`}
+            />
+        </Switch>
+    );
+}
+
+export default Example;
+```
+
+# 4. Chakra UI
+
+Chakra UI를 설정하고 Next.js 프로젝트에서 사용하는 방법에 대해 알아봅니다.
+
+---
+
+### 🌐 사이트 접근 및 설정
+
+1. **구글 검색**: `Chakra UI`를 검색하고 공식 사이트에 접속합니다.
+2. **Start Building 클릭**: Home 화면에서 **Start Building** 버튼을 클릭하고 Next.js를 선택합니다.
+3. **파일 생성**: `App/chakra/page.js` 파일을 생성합니다.
+
+---
+
+### 🛠 설치 및 설정
+
+4. **Chakra UI 설치**: 사이트의 지시에 따라 Chakra UI를 설치합니다.
+5. **Snippets 설치**: Snippets를 설치하면 `src/components/ui` 아래에 필요한 컴포넌트가 추가됩니다.
+6. **Provider 설정**: `Layout`에 `provider`를 설정하여 Chakra UI의 Context를 구성합니다.
+7. **tsconfig 설정 확인**: `tsconfig` 파일에서 설정을 확인하고, 필요한 설정이 누락되어 있으면 추가합니다.
+8. **next.config.mjs 수정**: `next.config.mjs` 파일을 수정하여 Chakra UI가 Next.js에서 정상적으로 작동하도록 설정합니다.
+
+---
+
+### 🔍 컴포넌트 테스트
+
+9. **Component 메뉴에서 테스트**: Component 메뉴에서 **Accordion** 컴포넌트를 선택하여 테스트해 봅니다.
+
+---
+
+이렇게 하면 Chakra UI와 Next.js의 설정을 마치고 다양한 컴포넌트를 쉽게 사용할 수 있습니다.
+
+-   chakra - ui 실습코드 1
+
+```jsx
+import { Button } from '@/components/ui/button';
+import { HStack } from '@chakra-ui/react';
+
+export default function Demo() {
+    return (
+        <HStack>
+            <Button>Click me</Button>
+            <Button>Click me</Button>
+        </HStack>
+    );
+}
+```
+
+-   chakra - ui 실습코드 2
+
+```jsx
+import { AccordionItem, AccordionItemContent, AccordionItemTrigger, AccordionRoot } from '@/components/ui/accordion';
+
+const Demo = () => {
+    return (
+        <AccordionRoot collapsible defaultValue={['b']}>
+            {items.map((item, index) => (
+                <AccordionItem key={index} value={item.value}>
+                    <AccordionItemTrigger>{item.title}</AccordionItemTrigger>
+                    <AccordionItemContent>{item.text}</AccordionItemContent>
+                </AccordionItem>
+            ))}
+        </AccordionRoot>
+    );
+};
+
+const items = [
+    { value: 'a', title: 'First Item', text: 'Some value 1...' },
+    { value: 'b', title: 'Second Item', text: 'Some value 2...' },
+    { value: 'c', title: 'Third Item', text: 'Some value 3...' },
+];
+
+export default Demo;
+```
+
+-   chakra - ui 실습코드 3
+
+```jsx
+import { ClipboardIconButton, ClipboardRoot } from '@/components/ui/clipboard';
+
+const Demo = () => {
+    return (
+        <ClipboardRoot value="https://chakra-ui.com">
+            <ClipboardIconButton />
+        </ClipboardRoot>
+    );
+};
+
+export default Demo;
+```
+
+-   chakra - ui 실습코드 4
+
+```
+import { Badge, Stack } from '@chakra-ui/react';
+
+const Demo = () => {
+    return (
+        <Stack direction="row">
+            <Badge>Default</Badge>
+            <Badge colorPalette="green">Success</Badge>
+            <Badge colorPalette="red">Removed</Badge>
+            <Badge colorPalette="purple">New</Badge>
+        </Stack>
+    );
+};
+
+export default Demo;
+```
+
+-   react icons 실습 코드
+
+```jsx
+import { Gi3dMeeple } from 'react-icons/gi';
+import React from 'react';
+
+const page = () => {
+    return (
+        <>
+            <div>react icons pages</div>
+            <Gi3dMeeple size={300} color="skyblue" />
+        </>
+    );
+};
+
+export default page;
+```
 
 <hr>
 
