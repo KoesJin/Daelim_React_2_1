@@ -34,6 +34,115 @@ https://github.com/hanbit/practical-next.js
 
 <hr>
 
+# 13주차 강의 내용
+
+## 🌟 Props 흐름과 Context API
+
+React와 Next.js에서 데이터 흐름은 단방향으로 이루어지며,
+이는 부모 컴포넌트에서 자식 컴포넌트로 데이터를 전달하는 Props를 통해 이루어집니다.
+
+하지만 계층 구조가 복잡해질 경우 Props Drilling 문제가 발생할 수 있습니다.
+이를 해결하기 위해 Context API 또는 Redux와 같은 전역 상태 관리 도구를 사용합니다.
+
+### 🧩 Props 흐름의 이해
+
+-   Next.js의 데이터 흐름은 단방향으로 이루어집니다.
+-   데이터는 부모 → 자식 컴포넌트 방향으로 전달되며, Props Drilling 문제가 발생할 수 있습니다.
+
+### 🌟 Props Drilling 문제점
+
+    1.	중간 컴포넌트에 불필요한 props 전달.
+    2.	타겟 컴포넌트로 props 전달 실패 시 원인 규명 어려움.
+    3.	복잡한 계층 구조로 인해 코드 복잡성 증가.
+
+### 🔧 해결 방법
+
+-   Props를 전역으로 사용하여 문제를 해결할 수 있습니다.
+-   Next.js에서는 Context API, Redux 등을 사용해 전역 상태 관리를 수행합니다.
+
+### 📌 Context API 개요
+
+-   Context API는 React의 상태 관리 도구로, 전역 데이터를 컴포넌트 계층 구조에 상관없이 공유할 수 있습니다.
+-   사용 사례:
+-   로그인 상태 관리
+-   쇼핑카트 물품 수량 관리
+
+**🚀 주요 개념**
+
+-   createContext: Context 생성.
+-   Provider: 데이터를 하위 컴포넌트에 전달.
+-   useContext: 데이터를 간단히 사용.
+
+### 📌 Consumer vs useContext
+
+<img width="513" alt="스크린샷 2024-11-27 오후 12 52 14" src="https://github.com/user-attachments/assets/f7ee7ba2-4d0d-429d-9b6d-8d8b03c6067a">
+
+### 🌟 Context API - use client
+
+-   use client 지시문은 Next.js에서 클라이언트 전용 컴포넌트임을 명시하기 위해 사용됩니다.
+-   서버 컴포넌트와 클라이언트 컴포넌트를 구분하여 효율적인 렌더링을 지원합니다.
+
+### 🚀 디렉토리 구조
+
+**주요 디렉토리**
+
+-   app : Routing Page 관리
+-   components : 공통 컴포넌트 관리
+-   context : Context 컴포넌트 관리
+-   features : 기능별 컴포넌트 관리
+-   store : Redux store 설정 파일 관리
+-   styles : 스타일 파일 관리
+
+### 🌟 Components vs Features
+
+<img width="513" alt="스크린샷 2024-11-27 오후 12 52 14" src="https://github.com/user-attachments/assets/4d02f15a-174e-4620-8e00-bdd37fde2b1d">
+
+### 🔍 Redux
+
+-   Slice: 특정 상태와 reducer 함수를 모아 관리.
+-   Provider: 전역 상태를 공급하기 위해 사용.
+-   전역 사용 시 layout 파일에 정의 가능.
+-   클라이언트 전용이므로 별도 컴포넌트로 분리 권장.
+
+### 🌟 Context API vs Redux
+
+<img width="694" alt="스크린샷 2024-11-27 오후 12 57 49" src="https://github.com/user-attachments/assets/e96c1493-2136-4ca2-b8ca-b6e54827af98">
+
+### 🚀 Redux의 단점
+
+-   초기 설정이 복잡하며 학습 곡선이 높음.
+-   작은 프로젝트에서는 사용하기 과도할 수 있음.
+-   Boilerplate 코드가 많아질 수 있음.
+
+## 🌟 다크모드 토글 예제 (Context API 활용)
+
+```jsx
+'use client';
+
+import React, { createContext, useState, useContext } from 'react';
+
+const ThemeContext = createContext();
+
+export const ThemeProvider = ({ children }) => {
+    const [darkMode, setDarkMode] = useState(false);
+
+    const toggleTheme = () => setDarkMode(!darkMode);
+
+    return <ThemeContext.Provider value={{ darkMode, toggleTheme }}>{children}</ThemeContext.Provider>;
+};
+
+export const useTheme = () => useContext(ThemeContext);
+
+// Example Component
+export const ThemeToggleButton = () => {
+    const { darkMode, toggleTheme } = useTheme();
+
+    return <button onClick={toggleTheme}>{darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}</button>;
+};
+```
+
+<hr>
+
 # 12주차 강의 내용
 
 ## 07-1 UI 라이브러리
