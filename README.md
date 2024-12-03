@@ -8,7 +8,7 @@ https://github.com/hanbit/practical-next.js
 
 3️⃣ [3주차](#3주차-강의-내용)
 
-4️⃣ [4주차](휴강)
+4️⃣ [4주차](#4주차-보강-11월-29일-수업내용)
 
 5️⃣ [5주차](#5주차-강의-내용)
 
@@ -34,7 +34,98 @@ https://github.com/hanbit/practical-next.js
 
 <hr>
 
-# 4주차 보강 (11월 29일)
+# 4주차 보강 (11월 29일 수업내용)
+
+## 🌟 GitHub Pages 생성
+
+-   이 저장소는 기본적인 GitHub Page로 이 곳에 정적 페이지를 올리고 서비스 운영을 할 수 있습니다
+-   외부에서 \<ID\>.gihbug.io로 접속할 수 있습니다
+
+## 🚀 깃허브 연동
+
+## 🚀 깃허브 설정 추가
+
+```bash
+git config --global init.defaultbranch main
+git config --local user.name gwang1234
+git config --local user.email qoi11@naver.com
+```
+
+## 🌟 깃허브 주소 등록
+
+```bash
+git remote remove origin
+git remote add origin https://키이름@github.com/아이디/foo.git
+```
+
+## 📌 주소등록 확인
+
+```bash
+git remote -v
+```
+
+## 📌 깃 푸시
+
+```bash
+git push -u origin main
+```
+
+## 📌 gh-pages 설치
+
+```bash
+npm i gh-pages
+```
+
+## 🧩 package.json 설정 변경
+
+```jsx
+{
+  "homepage": "https://gwang1234.github.io/foo",
+  "name": "foo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d out"
+  },
+
+```
+
+## 🌟 nextconfig.mjs 설정 변경
+
+```jsx
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+    output: 'export',
+    distDir: 'out',
+};
+```
+
+## 🧩 이미지, css 적용
+
+```jsx
+{
+    "deploy": "touch out/.nojekyll && gh-pages -d out -b deploy -t true"
+},
+```
+
+```jsx
+const isProd = process.env.NODE_ENV === 'production';
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+    output: 'export',
+    distDir: 'out',
+    assetPrefix: isProd ? 'https://gwang1234.github.io/foo/' : undefined,
+    images: {
+        unoptimized: true,
+    },
+};
+```
 
 <hr>
 
