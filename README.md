@@ -80,7 +80,7 @@ npm i gh-pages
 
 ```jsx
 {
-  "homepage": "https://gwang1234.github.io/foo",
+  "homepage": "https://KoesJin.github.io/foo",
   "name": "foo",
   "version": "0.1.0",
   "private": true,
